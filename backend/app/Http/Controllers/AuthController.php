@@ -46,6 +46,20 @@ class AuthController extends Controller
         return $this->respondWithToken($token);
     }
 
+    public function me()
+{
+    $user = auth('api')->user();
+
+    if ($user) {
+        return response()->json($user);
+    } else {
+        return response()->json(['error' => 'Unauthorized'], 401);
+    }
+}
+
+
+ 
+
 
 
     // Return JWT token response
