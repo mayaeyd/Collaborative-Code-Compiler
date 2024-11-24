@@ -75,6 +75,23 @@ public function logout()
 }
 
 
+    public function refresh()
+{
+    try {
+        // Get the current JWT token from the request
+        $token = JWTAuth::getToken();
+
+        // If the token exists, refresh it and return the new token
+        if ($token) {
+            $newToken = JWTAuth::refresh($token);
+            return $this->respondWithToken($newToken);
+        }
+
+        return response()->json(['error' => 'Token not provided'], 400);
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Failed to refresh token'], 500);
+    }
+}
 
 
 
