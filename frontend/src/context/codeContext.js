@@ -6,8 +6,13 @@ const CodeProvider = ({ children }) => {
   const [value, setValue] = useState("");
   const [selectedLanguage, setSelectedLanguage] = useState("javascript");
 
+  const onSelect = (language) => {
+    setSelectedLanguage(language);
+    setValue(codeSnippets[language]);
+  };
+
   return (
-    <codeContext.Provider>
+    <codeContext.Provider value={{ value, setValue, selectedLanguage, onSelect }}>
       {children}
     </codeContext.Provider>
   );
