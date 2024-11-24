@@ -3,11 +3,13 @@ import { Editor } from "@monaco-editor/react";
 import { useContext } from "react";
 import { codeContext } from "../context/codeContext";
 import { codeSnippets } from "../utils/enums/constants";
+import LanguageSelector from "../components/base/LanguageSelector";
 
 const CodeEditor = () => {
   const { value, setValue, selectedLanguage, onSelect } = useContext(codeContext);
   return (
     <Box w="50%">
+      <LanguageSelector />
       <Editor
         height="75vh"
         language={selectedLanguage}
