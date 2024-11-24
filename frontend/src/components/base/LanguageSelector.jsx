@@ -24,15 +24,21 @@ const LanguageSelector = () => {
       </Text>
       <Menu isLazy>
         <MenuButton as={Button}>{selectedLanguage}</MenuButton>
-        <MenuList>
+        <MenuList bg="#110c1b">
           {languages.map(([language, version]) => (
             <MenuItem
               key={language}
+              color={language === selectedLanguage ? activeColor : ""}
+              bg={language === selectedLanguage ? "gray.900" : "transparent"}
+              _hover={{
+                color: activeColor,
+                bg: "gray.900",
+              }}
               onClick={() => onSelect(language)}
             >
               {language}
               &nbsp;&nbsp;&nbsp;
-              <Text as="span" fontSize={"sm"}>
+              <Text as="span" color="gray.600" fontSize={"sm"}>
                 ({version})
               </Text>
             </MenuItem>
