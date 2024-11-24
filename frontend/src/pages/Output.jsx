@@ -1,11 +1,12 @@
 import { useContext, useState } from "react"
 import { codeContext } from "../context/codeContext"
-import { Box, Button, Text } from "@chakra-ui/react";
+import { Box, Button, Text, useToast } from "@chakra-ui/react";
 import { LANGUAGE_VERSIONS } from "../utils/enums/constants";
 import axios from "axios";
 
 const Output = () => {
     const {value, selectedLanguage, output, setOutput} = useContext(codeContext);
+    const toast = useToast();
     const version = LANGUAGE_VERSIONS[selectedLanguage];
     const [isLoading, setIsLoading] = useState(false);
     
@@ -25,7 +26,13 @@ const Output = () => {
         setIsLoading(false);
         setOutput(response.data.run.output);
       } catch (error) {
-        console.error('Error running code:', error);
+        console.error(error);
+        toast({
+          title:"An error occurred.",
+          description: error.message || "Unable to run code",
+          status: "error",
+          duration: 6000,
+        });
       } finally {
         setIsLoading(false);
       }
