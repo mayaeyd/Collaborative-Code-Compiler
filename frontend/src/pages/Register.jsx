@@ -10,6 +10,8 @@ import {
   theme,
   Container,
 } from "@chakra-ui/react";
+import { Link as RouterLink } from "react-router-dom"; 
+
 
 const Register = () => {
   return (
@@ -35,7 +37,7 @@ const Register = () => {
             </Text>
             <Text fontSize="md" align="center" mb={6} color="#e0e0e0">
               Already have an account?{" "}
-              <Link color="#4db6ac" href="#">
+              <Link color="#4db6ac" href="/">
                 Log in
               </Link>
             </Text>
@@ -75,8 +77,8 @@ const Register = () => {
               colorScheme="teal"
               variant="solid"
               width="100%"
-              backgroundColor="#4db6ac" 
-              _hover={{ backgroundColor: "#26a69a" }} 
+              backgroundColor="#4db6ac"
+              _hover={{ backgroundColor: "#26a69a" }}
             >
               Create Account
             </Button>
