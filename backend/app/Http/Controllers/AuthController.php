@@ -58,7 +58,23 @@ class AuthController extends Controller
 }
 
 
- 
+   // Logout user
+public function logout()
+{
+    // Get the current token
+    $token = JWTAuth::getToken();
+
+    // If the token is valid, invalidate it
+    if ($token) {
+        JWTAuth::invalidate($token);
+        return response()->json(['message' => 'Successfully logged out']);
+    }
+
+    // If no token is provided, return an error
+    return response()->json(['error' => 'No token provided'], 400);
+}
+
+
 
 
 
