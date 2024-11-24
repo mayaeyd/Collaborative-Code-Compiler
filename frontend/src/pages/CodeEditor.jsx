@@ -2,6 +2,7 @@ import { Box } from "@chakra-ui/react";
 import { Editor } from "@monaco-editor/react";
 import { useContext } from "react";
 import { codeContext } from "../context/codeContext";
+import { codeSnippets } from "../utils/enums/constants";
 
 const CodeEditor = () => {
   const { value, setValue, selectedLanguage, onSelect } = useContext(codeContext);
