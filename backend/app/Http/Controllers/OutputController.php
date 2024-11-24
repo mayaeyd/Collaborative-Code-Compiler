@@ -10,7 +10,7 @@ class OutputController extends Controller
     function run_code(Request $request){
         $validated = $request->validate([
             'language' => 'required|string',
-            'verison'=> 'required|string',
+            'version'=> 'required|string',
             'content'=> 'required|string',
         ]);
 
@@ -25,5 +25,10 @@ class OutputController extends Controller
                 ]
             ]
         ]);
+
+        if($response->failed()){
+            return response()->json(['error' => 'API call failed'], 500);
+        }
+        return $response->json();
     }
 }
