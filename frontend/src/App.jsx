@@ -1,10 +1,14 @@
-import './styles/App.css';
+import Compiler from "./pages/Compiler";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./styles/App.css";
 
 function App() {
   return (
-    <div>
-      
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/compiler" element={<Compiler />}/>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
