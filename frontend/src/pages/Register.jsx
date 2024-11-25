@@ -33,19 +33,24 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(""); 
+    setError("");
 
-    const result = await register(formData); 
+    const result = await register(formData);
 
     if (!result.success) {
-      setError(result.message); 
+      setError(result.message);
     }
   };
 
   return (
     <ChakraProvider theme={theme}>
       <Box backgroundColor="#0f0a19" minHeight="100vh">
-        <Container display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+        <Container
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          minHeight="100vh"
+        >
           <Box
             borderWidth="1px"
             borderRadius="lg"
@@ -69,7 +74,13 @@ const Register = () => {
                 {error}
               </Text>
             )}
-            <VStack as="form" spacing={4} align="stretch" mb={6} onSubmit={handleSubmit}>
+            <VStack
+              as="form"
+              spacing={4}
+              align="stretch"
+              mb={6}
+              onSubmit={handleSubmit}
+            >
               <Input
                 name="username"
                 value={formData.username}

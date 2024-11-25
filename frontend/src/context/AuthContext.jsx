@@ -59,12 +59,44 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const login = async (formData) => {
+    if (!formData.email || !formData.password) {
+      return { success: false, message: "Email and password are required." };
+    }
+
+    try {
+      const response = await axios.post("http://127.0.0.1:8000/api/auth/login", {
+        email: formData.email,
+        password: formData.password,
+      });
+
+      if (response.status === 200) {
+        setUser(response.data.user);
+        localStorage.setItem("token", response.data.token); 
+        navigate("/dashboard");
+        return { success: true };
+      }
+    } catch (error) {
+      if (error.response) {
+        return {
+          success: false,
+          message: error.response.data.message || "Login failed.",
+        };
+      }
+      return {
+        success: false,
+        message: "An error occurred during login. Please try again.",
+      };
+    }
+  };
+
   const value = {
     user,
     setUser,
     error,
     setError,
     register,
+    login
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
