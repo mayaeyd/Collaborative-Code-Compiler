@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\InvitationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FileController;
@@ -14,3 +15,5 @@ Route::prefix("/files")->group(function (){
     Route::put("/{id}", [FileController::class, "edit_file"]);
     Route::delete("/{id}", [FileController::class, "delete_file"]);
 });
+
+Route::post("/invite", [InvitationController::class,"invite"]);
