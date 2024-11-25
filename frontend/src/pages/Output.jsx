@@ -12,8 +12,6 @@ const Output = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  console.log(value, selectedLanguage, output);
-
   const runCode = async () => {
     try {
       setIsLoading(true);
