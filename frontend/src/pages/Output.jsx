@@ -55,9 +55,10 @@ const Output = () => {
       <Box
         height="75vh"
         p={2}
+        color={isError ? "red.400" : ""}
         border="1px solid"
         borderRadius={4}
-        borderColor="#333"
+        borderColor={isError ? "red.500" : "#333"}
       >
         {output ? output : 'Click "Run Code" to see the output here'}
       </Box>
