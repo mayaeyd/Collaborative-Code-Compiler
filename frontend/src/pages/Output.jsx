@@ -1,8 +1,25 @@
 import { useContext, useState } from "react";
 import { codeContext } from "../context/codeContext";
-import { Box, Button, Text, useToast } from "@chakra-ui/react";
 import { LANGUAGE_VERSIONS } from "../utils/enums/constants";
 import axios from "axios";
+import {
+  Popover,
+  PopoverFooter,
+  PopoverHeader,
+  PopoverArrow,
+  PopoverBody,
+  PopoverContent,
+  PopoverCloseButton,
+  PopoverTrigger,
+  Portal,
+  Box,
+  Button,
+  Flex,
+  Text,
+  useToast,
+  Input,
+} from "@chakra-ui/react";
+import Popup from "../components/common/Popup";
 
 const Output = () => {
   const { value, selectedLanguage, output, setOutput } =
@@ -41,15 +58,25 @@ const Output = () => {
       <Text mb={2} fontSize="lg">
         Output
       </Text>
-      <Button
-        variant="outline"
-        colorScheme="green"
-        mb={4}
-        isLoading={isLoading}
-        onClick={() => runCode()}
-      >
-        Run Code
-      </Button>
+      <Flex justify={"space-between"}>
+        <Button
+          variant="outline"
+          colorScheme="green"
+          mb={4}
+          isLoading={isLoading}
+          onClick={() => runCode()}
+        >
+          Run Code
+        </Button>
+        <Popup
+          header="Enter the email"
+          body="Enter the email of the person you want to collaborate with to start coding together in real time!"
+        >
+          <Button variant="solid" colorScheme="green" mb={4}>
+            Collaborate
+          </Button>
+        </Popup>
+      </Flex>
       <Box
         height="75vh"
         p={2}
