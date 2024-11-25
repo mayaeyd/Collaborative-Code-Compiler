@@ -16,6 +16,7 @@ Route::prefix("/files")->group(function (){
 Route::prefix("/collaborations")->group(function (){
     Route::post("/", [CollaborationController::class,"add_collaborator"]);
     Route::put("/{id}", [CollaborationController::class,"update_role"]);
+    Route::delete("/{id}", [CollaborationController::class,"remove_collaborator"]);
 });
 
 Route::post("/invitations", [InvitationController::class,"invite"]);

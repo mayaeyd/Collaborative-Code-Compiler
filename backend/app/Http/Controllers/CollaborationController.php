@@ -40,4 +40,12 @@ class CollaborationController extends Controller
         ], 200);
 
     }
+
+    function remove_collaborator($id){
+        $collaborator = Collaboration::find($id)->delete();
+
+        return response()->json([
+            'message' => 'Collaborator removed successfully!'
+        ], 201);
+    }
 }
