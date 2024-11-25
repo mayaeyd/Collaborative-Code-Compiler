@@ -1,4 +1,4 @@
-import { Box, HStack } from "@chakra-ui/react";
+import { Box, Button, HStack } from "@chakra-ui/react";
 import { Editor } from "@monaco-editor/react";
 import { useContext } from "react";
 import { codeContext } from "../context/codeContext";
@@ -11,7 +11,9 @@ const CodeEditor = () => {
     useContext(codeContext);
 
   return (
+    <>
     <HStack spacing={4}>
+    {/* files scroller  */}
       <Box w="50%">
         <LanguageSelector />
         <Editor
@@ -24,7 +26,8 @@ const CodeEditor = () => {
         />
       </Box>
       <Output />
-    </HStack>
+=    </HStack>
+    </>
   );
 };
 
