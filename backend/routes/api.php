@@ -4,10 +4,8 @@ use App\Http\Controllers\InvitationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\CollaborationController;
 
-// Route::get('/user', function (Request $request) {
-//     return $request->user();
-// })->middleware('auth:sanctum');
 
 Route::prefix("/files")->group(function (){
     Route::get("/{id}", [FileController::class,"get_files"]);
@@ -16,4 +14,6 @@ Route::prefix("/files")->group(function (){
     Route::delete("/{id}", [FileController::class, "delete_file"]);
 });
 
-Route::post("/invite", [InvitationController::class,"invite"]);
+Route::post("/invitations", [InvitationController::class,"invite"]);
+
+Route::post("/collaborations", [CollaborationController::class,"add_collaborator"]);
