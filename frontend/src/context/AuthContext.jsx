@@ -59,34 +59,40 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const login = async (formData) => {
-    if (!formData.email || !formData.password) {
-      return { success: false, message: "Email and password are required." };
-    }
-
+  const login = async (email, password) => {
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/auth/login", {
-        email: formData.email,
-        password: formData.password,
-      });
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/auth/login",
+        {
+          email,
+          password,
+        }
+      );
 
       if (response.status === 200) {
-        setUser(response.data.user);
-        localStorage.setItem("token", response.data.token); 
+        const { access_token } = response.data;
+
+        localStorage.setItem("token", access_token);
+
+        const userResponse = await axios.post(
+          "http://127.0.0.1:8000/api/auth/me",
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${access_token}`,
+            },
+          }
+        );
+
+        setUser(userResponse.data);
         navigate("/dashboard");
         return { success: true };
       }
-    } catch (error) {
-      if (error.response) {
-        return {
-          success: false,
-          message: error.response.data.message || "Login failed.",
-        };
+    } catch (err) {
+      if (err.response) {
+        return { success: false, message: err.response.data.error };
       }
-      return {
-        success: false,
-        message: "An error occurred during login. Please try again.",
-      };
+      return { success: false, message: "An error occurred during login." };
     }
   };
 
@@ -96,7 +102,7 @@ export const AuthProvider = ({ children }) => {
     error,
     setError,
     register,
-    login
+    login,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
