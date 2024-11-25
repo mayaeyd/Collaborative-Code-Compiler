@@ -12,6 +12,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  
 
   const register = async (formData) => {
     if (
