@@ -14,7 +14,7 @@ return [
     ],
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'mayabaseleid@sandboxde0d6d5705d140fa8cdda3d3894194b3.mailgun.org'),
+        'address' => env('MAIL_FROM_ADDRESS', 'mayaeid@sandboxde0d6d5705d140fa8cdda3d3894194b3.mailgun.org'),
         'name' => env('MAIL_FROM_NAME', 'Maya Eid'),
     ],
 

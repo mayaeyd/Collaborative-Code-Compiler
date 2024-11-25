@@ -20,7 +20,7 @@ class RequestCollab extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address('mayabaseleid@sandboxde0d6d5705d140fa8cdda3d3894194b3.mailgun.org', 'Maya Eid'),
+            from: new Address('mayaeid@sandboxde0d6d5705d140fa8cdda3d3894194b3.mailgun.org', 'Maya Eid'),
             subject: 'Request Collaboration',
         );
     }
