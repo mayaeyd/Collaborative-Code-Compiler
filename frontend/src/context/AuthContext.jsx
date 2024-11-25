@@ -14,6 +14,19 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const register = async (formData) => {
+    if (
+      !formData.username ||
+      !formData.email ||
+      !formData.password ||
+      !formData.confirmPassword
+    ) {
+      return { success: false, message: "All fields are required." };
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      return { success: false, message: "Passwords do not match." };
+    }
+
     try {
       const response = await axios.post(
         "http://127.0.0.1:8000/api/auth/register",
@@ -26,17 +39,23 @@ export const AuthProvider = ({ children }) => {
       );
 
       if (response.status === 200) {
+        setUser(response.data.user);
         navigate("/");
+        return { success: true };
       }
     } catch (error) {
       if (error.response) {
-        setError(
-          error.response.data.message ||
-            "Registration failed. Please try again."
-        );
-      } else {
-        setError("An error occurred during registration. Please try again.");
+        return {
+          success: false,
+          message:
+            error.response.data.message ||
+            "Registration failed. Please try again.",
+        };
       }
+      return {
+        success: false,
+        message: "An error occurred during registration. Please try again.",
+      };
     }
   };
 
