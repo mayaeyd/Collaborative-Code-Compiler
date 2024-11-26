@@ -41,7 +41,10 @@ const Popup = ({ children, header, body }) => {
       try {
         setEmail("");
         setMessage(". . .");
-        await axios.post("http://127.0.0.1:8000/api/send-email", { email });
+        await axios.post("http://127.0.0.1:8000/api/send-email", { 
+          email,
+          role,
+        });
         setMessage("Email successfully sent!");
       } catch (error) {
         console.log(error);
