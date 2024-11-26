@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
+import { EmailIcon } from "@chakra-ui/icons";
+import { emailContext } from "../../context/emailContext";
 import {
   Popover,
   PopoverFooter,
@@ -20,9 +22,9 @@ import {
   Flex,
 } from "@chakra-ui/react";
 
-import { EmailIcon } from "@chakra-ui/icons";
-
 const Popup = ({ children, header, body }) => {
+  const { email, handleChange , role , setRole } = useContext(emailContext);  
+
   return (
     <Popover>
       <PopoverTrigger>{children}</PopoverTrigger>
@@ -35,13 +37,17 @@ const Popup = ({ children, header, body }) => {
             {body}
             <InputGroup mt={4}>
               <InputLeftElement pointerEvents="none" children={<EmailIcon />} />
-              <Input placeholder="Email" focusBorderColor="green.100" />
+              <Input placeholder="Email" focusBorderColor="green.100" onChange={handleChange} value={email}/>
             </InputGroup>
-            <Flex justify='space-between' align='center'>
-            <RadioGroup>
+            <Flex justify="space-between" align="center">
+              <RadioGroup onChange={setRole} value={role}>
                 <Stack direction="row">
-                  <Radio value="editor" size='sm'>Editor</Radio>
-                  <Radio value="viewer" size='sm'>Viewer</Radio>
+                  <Radio value="editor" size="sm">
+                    Editor
+                  </Radio>
+                  <Radio value="viewer" size="sm">
+                    Viewer
+                  </Radio>
                 </Stack>
               </RadioGroup>
               <ButtonGroup
