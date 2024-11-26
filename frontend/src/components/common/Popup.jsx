@@ -40,9 +40,9 @@ const Popup = ({ children, header, body }) => {
       setError(false);
       try {
         setEmail("");
-        setMessage("...");
+        setMessage(". . .");
         await axios.post("http://127.0.0.1:8000/api/send-email", { email });
-        setMessage("Email successfully sent");
+        setMessage("Email successfully sent!");
       } catch (error) {
         console.log(error);
       }
@@ -54,6 +54,7 @@ const Popup = ({ children, header, body }) => {
       onClose={() => {
         setEmail("");
         setMessage("");
+        setError(false);
       }}
     >
       <PopoverTrigger>{children}</PopoverTrigger>
@@ -64,8 +65,8 @@ const Popup = ({ children, header, body }) => {
           <PopoverCloseButton />
           <PopoverBody>
             {body}
-            <Text fontSize="sm">{message}</Text>
-            <InputGroup mt={4}>
+            <Text fontSize="sm" color={error ? "red.400" : "green.100"} mt={4}>{message}</Text>
+            <InputGroup>
               <InputLeftElement pointerEvents="none" children={<EmailIcon />} />
               <Input
                 placeholder={error ? "Enter a valid email" : "Email"}
