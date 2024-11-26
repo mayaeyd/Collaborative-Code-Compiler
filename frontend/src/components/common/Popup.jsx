@@ -1,9 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { EmailIcon } from "@chakra-ui/icons";
 import { emailContext } from "../../context/emailContext";
 import {
   Popover,
-  PopoverFooter,
   PopoverHeader,
   PopoverArrow,
   PopoverBody,
@@ -23,7 +22,19 @@ import {
 } from "@chakra-ui/react";
 
 const Popup = ({ children, header, body }) => {
-  const { email, handleChange , role , setRole } = useContext(emailContext);  
+  const { email, handleChange, role, setRole } = useContext(emailContext);
+  const [error, setError] = useState(false);
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const handleClick = () => {
+    if (email && role) {
+      if (!emailRegex.test(email)) {
+        setError(true);
+        return console.log("enter a valid email");
+      }
+      setError(false);
+      console.log("submitted ", email, role);
+    }
+  };
 
   return (
     <Popover>
@@ -37,7 +48,12 @@ const Popup = ({ children, header, body }) => {
             {body}
             <InputGroup mt={4}>
               <InputLeftElement pointerEvents="none" children={<EmailIcon />} />
-              <Input placeholder="Email" focusBorderColor="green.100" onChange={handleChange} value={email}/>
+              <Input
+                placeholder={error ? "Enter a valid email" : "Email"}
+                
+                onChange={handleChange}
+                value={email}
+              />
             </InputGroup>
             <Flex justify="space-between" align="center">
               <RadioGroup onChange={setRole} value={role}>
@@ -56,7 +72,9 @@ const Popup = ({ children, header, body }) => {
                 display="flex"
                 justifyContent="flex-end"
               >
-                <Button colorScheme="green">Send</Button>
+                <Button colorScheme="green" onClick={handleClick}>
+                  Send
+                </Button>
               </ButtonGroup>
             </Flex>
           </PopoverBody>
