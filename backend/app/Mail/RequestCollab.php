@@ -12,9 +12,10 @@ use Illuminate\Queue\SerializesModels;
 class RequestCollab extends Mailable
 {
     use Queueable, SerializesModels;
-    public function __construct()
+    public $role;
+    public function __construct($role)
     {
-        // pass data to the view
+        $this->role = $role;
     }
 
     public function envelope(): Envelope
@@ -29,6 +30,7 @@ class RequestCollab extends Mailable
     {
         return new Content(
             markdown: 'emails.request-collab',
+            with:['role'=>$this->role],
         );
     }
 
