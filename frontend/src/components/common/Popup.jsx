@@ -20,12 +20,14 @@ import {
   Stack,
   Flex,
 } from "@chakra-ui/react";
+import axios from "axios";
 
 const Popup = ({ children, header, body }) => {
-  const { email, handleChange, role, setRole, setEmail } = useContext(emailContext);
+  const { email, handleChange, role, setRole, setEmail } =
+    useContext(emailContext);
   const [error, setError] = useState(false);
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const handleSend = () => {
+  const handleSend = async () => {
     if (email && role) {
       if (!emailRegex.test(email)) {
         setError(true);
@@ -34,7 +36,11 @@ const Popup = ({ children, header, body }) => {
       }
       setError(false);
       setEmail("");
-      
+      try {
+        await axios.post("http://127.0.0.1:8000/api/send-email", {email});
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
