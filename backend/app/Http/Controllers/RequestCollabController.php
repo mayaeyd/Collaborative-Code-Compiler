@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Mail;
 
 class RequestCollabController extends Controller
 {
-    public function sendTestEmail(Request $request)
+    public function sendEmail(Request $request)
     {
         $validated = $request->validate([
             'email' => 'required|email',
@@ -16,6 +16,6 @@ class RequestCollabController extends Controller
 
         Mail::to($validated['email'])->send(new RequestCollab());
 
-        return response()->json(['message' => 'Test email sent!']);
+        return response()->json(['message' => 'Email sent!']);
     }
 }
