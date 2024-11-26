@@ -22,16 +22,18 @@ import {
 } from "@chakra-ui/react";
 
 const Popup = ({ children, header, body }) => {
-  const { email, handleChange, role, setRole } = useContext(emailContext);
+  const { email, handleChange, role, setRole, setEmail } = useContext(emailContext);
   const [error, setError] = useState(false);
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const handleClick = () => {
+  const handleSend = () => {
     if (email && role) {
       if (!emailRegex.test(email)) {
         setError(true);
-        return console.log("enter a valid email");
+        console.log("enter a valid email");
+        return;
       }
       setError(false);
+      setEmail("");
       console.log("submitted ", email, role);
     }
   };
@@ -50,7 +52,8 @@ const Popup = ({ children, header, body }) => {
               <InputLeftElement pointerEvents="none" children={<EmailIcon />} />
               <Input
                 placeholder={error ? "Enter a valid email" : "Email"}
-                
+                focusBorderColor={error ? "red.300" : "green.100"}
+                errorBorderColor="red.300"
                 onChange={handleChange}
                 value={email}
               />
@@ -72,7 +75,7 @@ const Popup = ({ children, header, body }) => {
                 display="flex"
                 justifyContent="flex-end"
               >
-                <Button colorScheme="green" onClick={handleClick}>
+                <Button colorScheme="green" onClick={handleSend}>
                   Send
                 </Button>
               </ButtonGroup>

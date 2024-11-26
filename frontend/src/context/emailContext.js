@@ -10,7 +10,7 @@ const EmailProvider = ({ children }) => {
     }
 
     return(
-        <emailContext.Provider value={{ role, setRole, email, handleChange}}>
+        <emailContext.Provider value={{ role, setRole, email, setEmail , handleChange}}>
             {children}
         </emailContext.Provider>
     );
