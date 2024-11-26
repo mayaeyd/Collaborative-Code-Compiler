@@ -19,6 +19,7 @@ import {
   Radio,
   Stack,
   Flex,
+  Text,
 } from "@chakra-ui/react";
 import axios from "axios";
 
@@ -26,18 +27,22 @@ const Popup = ({ children, header, body }) => {
   const { email, handleChange, role, setRole, setEmail } =
     useContext(emailContext);
   const [error, setError] = useState(false);
+  const [message, setMessage] = useState("");
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
   const handleSend = async () => {
     if (email && role) {
       if (!emailRegex.test(email)) {
         setError(true);
-        console.log("enter a valid email");
+        setMessage("Enter a valid email");
         return;
       }
       setError(false);
       try {
         setEmail("");
-        await axios.post("http://127.0.0.1:8000/api/send-email", {email});
+        setMessage("...");
+        await axios.post("http://127.0.0.1:8000/api/send-email", { email });
+        setMessage("Email successfully sent");
       } catch (error) {
         console.log(error);
       }
@@ -45,7 +50,12 @@ const Popup = ({ children, header, body }) => {
   };
 
   return (
-    <Popover>
+    <Popover
+      onClose={() => {
+        setEmail("");
+        setMessage("");
+      }}
+    >
       <PopoverTrigger>{children}</PopoverTrigger>
       <Portal>
         <PopoverContent>
@@ -54,6 +64,7 @@ const Popup = ({ children, header, body }) => {
           <PopoverCloseButton />
           <PopoverBody>
             {body}
+            <Text fontSize="sm">{message}</Text>
             <InputGroup mt={4}>
               <InputLeftElement pointerEvents="none" children={<EmailIcon />} />
               <Input
