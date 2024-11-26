@@ -7,6 +7,7 @@ use App\Http\Controllers\CollaborationController;
 use App\Http\Controllers\RequestCollabController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OutputController;
+use App\Http\Controllers\AIController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -27,7 +28,9 @@ Route::prefix("/collaborations")->group(function (){
 Route::post("/invitations", [InvitationController::class,"invite"]);
 
 Route::post('/compiler', [OutputController::class, 'run_code']);
-Route::post('/send-email', [RequestCollabController::class, 'sendEmail']);
+Route::post('/send-email', [RequestCollabController::class, 'send_email']);
+Route::post('/analyze-code', [AIController::class, 'analyze_code']);
+
 
 Route::group(['prefix' => 'auth'], function ($router) {
     Route::post('login', [AuthController::class, 'login']);

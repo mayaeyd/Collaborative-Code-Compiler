@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Mail;
 
 class RequestCollabController extends Controller
 {
-    public function sendEmail(Request $request)
+    public function send_email(Request $request)
     {
         $validated = $request->validate([
             'email' => 'required|email',
