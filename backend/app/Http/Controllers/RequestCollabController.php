@@ -12,9 +12,10 @@ class RequestCollabController extends Controller
     {
         $validated = $request->validate([
             'email' => 'required|email',
+            'role' => 'required|in:editor,viewer',
         ]);
 
-        Mail::to($validated['email'])->send(new RequestCollab());
+        Mail::to($validated['email'])->send(new RequestCollab($validated['role']));
 
         return response()->json(['message' => 'Email sent!']);
     }
