@@ -9,14 +9,15 @@ import {
   PopoverCloseButton,
   PopoverTrigger,
   Portal,
-  Box,
-  Button,
-  Flex,
-  Text,
-  useToast,
   Input,
   InputGroup,
   InputLeftElement,
+  Button,
+  ButtonGroup,
+  RadioGroup,
+  Radio,
+  Stack,
+  Flex,
 } from "@chakra-ui/react";
 
 import { EmailIcon } from "@chakra-ui/icons";
@@ -36,6 +37,22 @@ const Popup = ({ children, header, body }) => {
               <InputLeftElement pointerEvents="none" children={<EmailIcon />} />
               <Input placeholder="Email" focusBorderColor="green.100" />
             </InputGroup>
+            <Flex justify='space-between' align='center'>
+            <RadioGroup>
+                <Stack direction="row">
+                  <Radio value="editor" size='sm'>Editor</Radio>
+                  <Radio value="viewer" size='sm'>Viewer</Radio>
+                </Stack>
+              </RadioGroup>
+              <ButtonGroup
+                size="sm"
+                mt={2}
+                display="flex"
+                justifyContent="flex-end"
+              >
+                <Button colorScheme="green">Send</Button>
+              </ButtonGroup>
+            </Flex>
           </PopoverBody>
         </PopoverContent>
       </Portal>

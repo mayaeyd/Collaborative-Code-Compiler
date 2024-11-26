@@ -2,23 +2,7 @@ import { useContext, useState } from "react";
 import { codeContext } from "../context/codeContext";
 import { LANGUAGE_VERSIONS } from "../utils/enums/constants";
 import axios from "axios";
-import {
-  Popover,
-  PopoverFooter,
-  PopoverHeader,
-  PopoverArrow,
-  PopoverBody,
-  PopoverContent,
-  PopoverCloseButton,
-  PopoverTrigger,
-  Portal,
-  Box,
-  Button,
-  Flex,
-  Text,
-  useToast,
-  Input,
-} from "@chakra-ui/react";
+import { Box, Button, Flex, Text, useToast } from "@chakra-ui/react";
 import Popup from "../components/common/Popup";
 
 const Output = () => {
