@@ -70,6 +70,7 @@ const Output = () => {
         borderColor={isError ? "red.500" : "#333"}
       >
         {output ? output : 'Click "Run Code" to see the output here'}
+        <Button>Analyze</Button>
       </Box>
     </Box>
   );
