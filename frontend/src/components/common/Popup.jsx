@@ -34,7 +34,7 @@ const Popup = ({ children, header, body }) => {
       }
       setError(false);
       setEmail("");
-      console.log("submitted ", email, role);
+      
     }
   };
 
