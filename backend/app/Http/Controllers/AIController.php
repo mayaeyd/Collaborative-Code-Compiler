@@ -10,29 +10,29 @@ class AIController extends Controller
     function analyze_code(Request $request)
     {
         $validated = $request->validate([
-            'code' => 'required|string',
+            'error' => 'required|string|max:5000',
         ]);
 
-        $response = Http::post(
-            'https://api.openai.com/v1/chat/completions',
-            [
-                "model" => "gpt-3.5-turbo",
-                "messages" => [
-                    [
-                        "role" => "system",
-                        "content" => "You are a code analyzer skilled in identifying errors in code and providing actionable suggestions for resolving them. Your response should be an object containing two keys: 'line', indicating the line number where the error occurs, and 'suggestion', providing a recommended fix for the error."
-                    ],
-                    [
-                        "role" => "user",
-                        "content" => $validated['code']
-                    ]
-                ]
-            ]
-        );
 
-        if ($response->failed()) {
-            return response()->json(['error' => 'API call failed'], 500);
-        }
-        return $response->json();
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . env('OPENAI_SECRET'),
+            'Content-Type' => 'application/json',
+        ])->post('https://api.openai.com/v1/chat/completions', [
+                    "model" => "gpt-3.5-turbo",
+                    "messages" => [
+                        [
+                            "role" => "system",
+                            "content" => "You are a code analyzer skilled in identifying errors in code and providing actionable suggestions for 
+                                            resolving them. Your response should be an object containing two keys: 'line', indicating the line number where the error 
+                                            occurs, and 'suggestion', providing a recommended fix for the error, suitable for display in a popup."
+                        ],
+                        [
+                            "role" => "user",
+                            "content" => $validated['error']
+                        ]
+                    ]
+                ]);
+
+
     }
 }
