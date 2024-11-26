@@ -20,12 +20,14 @@ import {
   Stack,
   Flex,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
 
 const Popup = ({ children, header, body }) => {
   const { email, handleChange, role, setRole, setEmail } =
     useContext(emailContext);
+  const toast = useToast();
   const [error, setError] = useState(false);
   const [message, setMessage] = useState("");
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -48,6 +50,13 @@ const Popup = ({ children, header, body }) => {
         setMessage("Email successfully sent!");
       } catch (error) {
         console.log(error);
+        toast({
+          title: "An error occurred.",
+          description: error.message || "Unable to send email",
+          status: "error",
+          duration: 6000,
+        });
+        setMessage("");
       }
     }
   };
