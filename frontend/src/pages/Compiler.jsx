@@ -1,7 +1,9 @@
 import { Box, HStack, Button, Text } from "@chakra-ui/react";
+import { useAuth } from "../context/AuthContext.jsx";
 import CodeEditor from "./CodeEditor.jsx";
 
 function Compiler() {
+  const {user, logout} = useAuth();
   const handleLogout = () => {
     alert("Logged out!");
   };
