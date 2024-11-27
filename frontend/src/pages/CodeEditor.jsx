@@ -13,12 +13,15 @@ const CodeEditor = () => {
     alert("Logged out!");
   };
 
+
   return (
     <>
-    
       <HStack spacing={4}>
         {/* Editor and Output */}
         <Box w="50%">
+        <Text fontSize="lg" fontWeight="bold">
+          Welcome, John Doe!
+        </Text>
           <LanguageSelector />
           <Editor
             height="75vh"
