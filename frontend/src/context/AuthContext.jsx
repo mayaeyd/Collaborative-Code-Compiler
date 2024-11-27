@@ -86,7 +86,7 @@ export const AuthProvider = ({ children }) => {
         );
 
         setUser(userResponse.data);
-        navigate("/dashboard");
+        navigate("/compiler");
         return { success: true };
       }
     } catch (err) {
