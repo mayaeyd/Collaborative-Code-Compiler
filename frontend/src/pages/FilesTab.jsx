@@ -2,30 +2,18 @@ import { Box, Text, Button, VStack, Input } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useContext, useState } from "react";
 import { codeContext } from "../context/codeContext";
+import { filesContext } from "../context/filesContext";
 
 const FilesTab = () => {
-  const [files, setFiles] = useState([]);
   const [fileName, setFileName] = useState("");
   const { value, setValue, selectedLanguage } = useContext(codeContext);
-
-  const handleAddFile = async () => {
+  const {createFile , files} = useContext(filesContext);
+  
+  const handleAddFile = ()=>{
     if (fileName.trim() === "") return;
-    setFiles([...files, fileName]);
+    createFile(fileName , value, selectedLanguage);
     setFileName("");
-    
-    try{
-        const response = await axios.post("http://127.0.0.1:8000/api/files", {
-            name: fileName,
-            content: value,
-            language: selectedLanguage,
-            owner_id: 1,
-          });
-          console.log(response.data);
-    }catch(error){
-        console.error(error);
-    }
-    
-  };
+  }
 
   return (
     <Box
@@ -53,8 +41,14 @@ const FilesTab = () => {
       <VStack align="start" spacing={2}>
         {files.length > 0 ? (
           files.map((file, index) => (
-            <Text key={index} p={2} border="1px solid teal" borderRadius="md">
-              {file}
+            <Text
+              key={index}
+              p={2}
+              border="1px solid teal"
+              borderRadius="md"
+              w="100%"
+            >
+              {file.name}
             </Text>
           ))
         ) : (

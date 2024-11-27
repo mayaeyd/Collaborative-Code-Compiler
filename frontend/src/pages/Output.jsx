@@ -115,7 +115,7 @@ const Output = () => {
                   height="20"
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke="#1A202C"
+                  stroke="white"
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"

@@ -27,7 +27,7 @@ const FilesProvider = ({ children }) => {
       } else {
         console.log("Unexpected response status:", response.status);
       }
-      console.log(response.data.files);
+      setFiles(response.data.files);
     } catch (error) {
       console.error(error);
     }

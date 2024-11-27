@@ -120,7 +120,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser(null); 
     localStorage.removeItem("token"); 
-    navigate("/"); 
+    navigate("/login"); 
   };
 
   React.useEffect(() => {

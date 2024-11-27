@@ -14,7 +14,8 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::prefix("/files")->middleware('auth:api')->group(function () {
-    Route::get("/{id}", [FileController::class,"get_files"]);
+    Route::post('/save', [FileController::class, 'save_file']);
+    Route::get("/", [FileController::class,"get_files"]);
     Route::post("/", [FileController::class, "create_file"]);
     Route::post("/{id}", [FileController::class, "edit_file"]);
     Route::delete("/{id}", [FileController::class, "delete_file"]);

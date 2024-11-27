@@ -61,7 +61,7 @@ class FileController extends Controller
         ], 200);
     }
 
-    function delete_file($id, Request $request) {
+    function delete_file($id) {
         $user = JWTAuth::parseToken()->authenticate();
 
         $file = File::findOrFail($id);
@@ -78,9 +78,9 @@ class FileController extends Controller
         ], 200);
     }
 
-    public function get_files(Request $request) {
+    public function get_files() {
         $user = JWTAuth::parseToken()->authenticate();
-    
+
         if (!$user) {
             return response()->json(['error' => 'User not found'], 404);
         }
