@@ -47,7 +47,11 @@ const SaveProvider = ({ children }) => {
     }
   };
 
- 
+  return (
+    <saveContext.Provider value={{ handleSave }}>
+      {children}
+    </saveContext.Provider>
+  );
 };
 
 export default SaveProvider;
