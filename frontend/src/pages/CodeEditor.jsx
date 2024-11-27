@@ -1,6 +1,7 @@
 import { Box, Button, HStack } from "@chakra-ui/react";
 import { Editor } from "@monaco-editor/react";
 import { useContext } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { codeContext } from "../context/codeContext";
 import { codeSnippets } from "../utils/enums/constants";
 import LanguageSelector from "../components/base/LanguageSelector";
@@ -9,6 +10,8 @@ import Output from "./Output.jsx";
 const CodeEditor = () => {
   const { value, setValue, selectedLanguage } =
     useContext(codeContext);
+
+
 
   return (
     <>
@@ -22,7 +25,7 @@ const CodeEditor = () => {
           defaultValue={codeSnippets[selectedLanguage]}
           theme="vs-dark"
           value={value}
-          onChange={(value) => setValue(value)}
+          onChange={handleInputChange}
         />
       </Box>
       <Output />

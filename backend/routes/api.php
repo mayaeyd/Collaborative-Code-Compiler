@@ -1,4 +1,5 @@
 <?php
+use App\Events\TextChangedEvent;
 use App\Http\Controllers\InvitationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -38,5 +39,12 @@ Route::group(['prefix' => 'auth'], function ($router) {
         Route::post('me', [AuthController::class, 'me']);
         Route::post('logout', [AuthController::class, 'logout']);
     });
+});
+
+Route::post('/update-text', function (Request $request) {
+    logger('TextChangedEvent fired with text:', ['text' => $request->text]);
+    
+    broadcast(new TextChangedEvent($request->text));
+    return response()->json(['text'=>$request->text]);
 });
 
