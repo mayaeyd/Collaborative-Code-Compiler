@@ -23,7 +23,7 @@ class AIController extends Controller
                             [
                                 "role" => "system",
                                 "content" => "You are a code analyzer skilled in identifying errors in code and providing actionable suggestions for 
-                                            resolving them. Your response should be an object containing two keys: 'line', indicating the line number where the error 
+                                            resolving them. Your response should be an JSON containing two keys: 'line', indicating the line number where the error 
                                             occurs, and 'suggestion', providing a recommended fix for the error, suitable for display in a popup."
                             ],
                             [
