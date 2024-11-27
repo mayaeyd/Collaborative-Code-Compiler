@@ -13,7 +13,11 @@ const CodeProvider = ({ children }) => {
     setValue(codeSnippets[language]);
   };
 
- 
+  return (
+    <codeContext.Provider value={{ value, setValue, selectedLanguage, onSelect, output, setOutput }}>
+      {children}
+    </codeContext.Provider>
+  );
 };
 
 export default CodeProvider;
