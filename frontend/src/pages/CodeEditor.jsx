@@ -6,6 +6,7 @@ import { codeContext } from "../context/codeContext";
 import { codeSnippets } from "../utils/enums/constants";
 import LanguageSelector from "../components/base/LanguageSelector";
 import Output from "./Output.jsx";
+import FilesTab from "./FilesTab.jsx";
 
 const CodeEditor = () => {
   const { value, setValue, selectedLanguage } = useContext(codeContext);
@@ -14,7 +15,8 @@ const CodeEditor = () => {
     <>
       <HStack spacing={4}>
         {/* files scroller  */}
-        <Box w="50%">
+        <FilesTab />
+        <Box w="40%">
           <LanguageSelector />
           <Editor
             height="75vh"

@@ -65,7 +65,7 @@ const Output = () => {
   };
 
   return (
-    <Box w="50%">
+    <Box w="40%">
       <Text mb={2} fontSize="lg">
         Output
       </Text>
