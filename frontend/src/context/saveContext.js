@@ -8,7 +8,12 @@ const CodeProvider = ({ children }) => {
   const [selectedLanguage, setSelectedLanguage] = useState("javascript");  
   const [output, setOutput] = useState('');  
 
-  
+  const onSelect = (language) => {
+    setSelectedLanguage(language);
+    setValue(codeSnippets[language]);
+  };
+
+ 
 };
 
 export default CodeProvider;
