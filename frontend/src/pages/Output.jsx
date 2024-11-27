@@ -4,7 +4,7 @@ import { LANGUAGE_VERSIONS } from "../utils/enums/constants";
 import axios from "axios";
 import { Box, Button, Flex, Text, useToast } from "@chakra-ui/react";
 import Popup from "../components/common/Popup";
-import { aiAnalyze } from "../utils/aiAnalyze";
+import { aiAnalyze, useAIAnalyze } from "../utils/aiAnalyze";
 
 const Output = () => {
   const { value, selectedLanguage, output, setOutput } =
@@ -13,6 +13,13 @@ const Output = () => {
   const version = LANGUAGE_VERSIONS[selectedLanguage];
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const {aiAnalyze , loading} = useAIAnalyze();
+
+  const handleAnalyzeClick = async () => {
+    const error = output; // Replace with actual error details
+    const response = await aiAnalyze(error);
+    console.log(response); // Use the AI response
+  };
 
   const runCode = async () => {
     try {
@@ -79,9 +86,9 @@ const Output = () => {
           <Button
             display={isError ? "" : "none"}
             colorScheme="blue"
-            onClick={() => aiAnalyze(output)}
+            onClick={() => handleAnalyzeClick(output)}
           >
-            AI Analyzer
+            {loading ? "Analyzing..." : "AI Analyzer"}
           </Button>
         </Flex>
       </Flex>
