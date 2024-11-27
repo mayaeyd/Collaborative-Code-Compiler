@@ -4,8 +4,9 @@ import CodeEditor from "./CodeEditor.jsx";
 
 function Compiler() {
   const {user, logout} = useAuth();
+
   const handleLogout = () => {
-    alert("Logged out!");
+    logout();
   };
 
   return (
