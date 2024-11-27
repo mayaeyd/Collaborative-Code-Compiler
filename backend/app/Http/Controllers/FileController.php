@@ -21,7 +21,43 @@ class FileController extends Controller
     
         $file = File::where('name', $request->name)->where('owner_id', $user->id)->first();
     
-        
+        if ($file) {
+            try {
+                $file->update([
+                    'content' => $request->content,    
+                    'language' => $request->language,  
+                ]);
+    
+                return response()->json([
+                    'message' => 'File updated successfully!',
+                    'file' => $file,                   
+                ], 200); 
+    
+            } catch (\Exception $e) {
+                return response()->json([
+                    'error' => 'Failed to update file: ' . $e->getMessage(),
+                ], 500); 
+            }
+        } else {
+            try {
+                $file = File::create([
+                    'name' => $request->name,         
+                    'content' => $request->content,    
+                    'language' => $request->language,  
+                    'owner_id' => $user->id,           
+                ]);
+    
+                return response()->json([
+                    'message' => 'File created successfully!',
+                    'file' => $file,                    
+                ], 201); 
+    
+            } catch (\Exception $e) {
+                return response()->json([
+                    'error' => 'Failed to save file: ' . $e->getMessage(),
+                ], 500); 
+            }
+        }
     }
     
 
