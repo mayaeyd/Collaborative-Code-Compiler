@@ -1,12 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Models\File;
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Models\File;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -96,5 +93,22 @@ class FileController extends Controller
             'files' => $files,
         ], 200);
     }
+
+    public function get_file_by_id($id, Request $request)
+{
+    $user = JWTAuth::parseToken()->authenticate();
+
+    $file = File::findOrFail($id);
+
+    if ($file->owner_id !== $user->id) {
+        return response()->json(['error' => 'Unauthorized'], 403);
+    }
+
+    return response()->json([
+        'message' => 'File retrieved successfully!',
+        'file' => $file,
+    ], 200);
+}
+
     
 }
