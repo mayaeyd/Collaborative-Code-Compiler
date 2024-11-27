@@ -1,23 +1,13 @@
-import { createContext, useState } from "react";
-import { codeSnippets } from "../utils/enums/constants";
+import { createContext, useContext } from "react";
+import axios from "axios";
+import { codeContext } from "./codeContext";  
 
-export const codeContext = createContext();
+export const saveContext = createContext();
 
-const CodeProvider = ({ children }) => {
-  const [value, setValue] = useState(""); 
-  const [selectedLanguage, setSelectedLanguage] = useState("javascript");  
-  const [output, setOutput] = useState('');  
+const SaveProvider = ({ children }) => {
+  const { value, selectedLanguage } = useContext(codeContext);  
 
-  const onSelect = (language) => {
-    setSelectedLanguage(language);
-    setValue(codeSnippets[language]);
-  };
-
-  return (
-    <codeContext.Provider value={{ value, setValue, selectedLanguage, onSelect, output, setOutput }}>
-      {children}
-    </codeContext.Provider>
-  );
+  
 };
 
-export default CodeProvider;
+export default SaveProvider;
