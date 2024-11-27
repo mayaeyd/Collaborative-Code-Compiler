@@ -79,7 +79,7 @@ const FilesProvider = ({ children }) => {
   }, []);
 
   return (
-    <filesContext.Provider value={{ createFile, files, setFiles }}>
+    <filesContext.Provider value={{ createFile, files, setFiles , getFileContent}}>
       {children}
     </filesContext.Provider>
   );
