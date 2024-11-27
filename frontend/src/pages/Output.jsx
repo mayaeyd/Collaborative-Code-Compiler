@@ -37,6 +37,11 @@ const Output = () => {
     }
   };
 
+  const aiAnalyze = ()=>{
+    console.log("bit");
+    
+  }
+
   return (
     <Box w="50%">
       <Text mb={2} fontSize="lg">
@@ -61,17 +66,29 @@ const Output = () => {
           </Button>
         </Popup>
       </Flex>
-      <Box
+      <Flex
+        flexDirection="column"
+        width="100%"
         height="75vh"
         p={2}
-        color={isError ? "red.400" : ""}
         border="1px solid"
         borderRadius={4}
         borderColor={isError ? "red.500" : "#333"}
+        color={isError ? "red.400" : ""}
       >
-        {output ? output : 'Click "Run Code" to see the output here'}
-        <Button>Analyze</Button>
-      </Box>
+        <Box flex="1" overflowY="auto">
+          {output ? output : 'Click "Run Code" to see the output here'}
+        </Box>
+        <Flex justify="flex-end" mt={2}>
+          <Button
+            display={isError ? "" : "none"}
+            colorScheme="blue"
+            onClick={() => aiAnalyze()}
+          >
+            AI Analyzer
+          </Button>
+        </Flex>
+      </Flex>
     </Box>
   );
 };
