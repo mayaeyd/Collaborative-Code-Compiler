@@ -17,7 +17,6 @@ function Compiler() {
         </Button>
       </HStack>
 
-      {/* The Code Editor */}
       <CodeEditor />
     </Box>
   );

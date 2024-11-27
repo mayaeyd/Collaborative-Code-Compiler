@@ -97,6 +97,12 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem("token");
+    navigate("/");
+  }
+
   const value = {
     user,
     setUser,
