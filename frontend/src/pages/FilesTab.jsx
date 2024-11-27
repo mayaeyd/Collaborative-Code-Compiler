@@ -1,24 +1,44 @@
 import { Box, Text, Button, VStack, Input } from "@chakra-ui/react";
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useContext, useState } from "react";
+import { codeContext } from "../context/codeContext";
 
 const FilesTab = () => {
   const [files, setFiles] = useState([]);
   const [fileName, setFileName] = useState("");
+  const { value, setValue, selectedLanguage } = useContext(codeContext);
 
-  const handleAddFile = () => {
-    if (fileName.trim() === "") return; 
-    setFiles([...files, fileName]); 
-    setFileName(""); 
+  const handleAddFile = async () => {
+    if (fileName.trim() === "") return;
+    setFiles([...files, fileName]);
+    setFileName("");
+    
+    try{
+        const response = await axios.post("http://127.0.0.1:8000/api/files", {
+            name: fileName,
+            content: value,
+            language: selectedLanguage,
+            owner_id: 1,
+          });
+          console.log(response.data);
+    }catch(error){
+        console.error(error);
+    }
+    
   };
 
   return (
-    <Box w="20%" h="90vh" border="1px solid white" p={4} bg="gray.800" color="white" alignSelf='flex-start' overflowY='scroll'>
-      <Button 
-        colorScheme="teal" 
-        w="100%" 
-        mb={4} 
-        onClick={handleAddFile}
-      >
+    <Box
+      w="20%"
+      h="90vh"
+      border="1px solid white"
+      p={4}
+      bg="gray.800"
+      color="white"
+      alignSelf="flex-start"
+      overflowY="scroll"
+    >
+      <Button colorScheme="teal" w="100%" mb={4} onClick={handleAddFile}>
         Add File
       </Button>
       <Input
