@@ -13,12 +13,13 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class FileController extends Controller
 {
-    function create_file(Request $request) {
+    function create_file(Request $request)
+    {
 
         $request->validate([
             'name' => 'required|string|max:255',
             'content' => 'required|string',
-            'language' => 'required|string', 
+            'language' => 'required|string',
         ]);
 
         $user = JWTAuth::parseToken()->authenticate();
@@ -27,7 +28,7 @@ class FileController extends Controller
             'name' => $request->name,
             'content' => $request->content,
             'language' => $request->language,
-            'owner_id' => $user->id,  
+            'owner_id' => $user->id,
         ]);
 
         return response()->json([
@@ -35,7 +36,8 @@ class FileController extends Controller
         ], 201);
     }
 
-    function edit_file($id, Request $request) {
+    function edit_file($id, Request $request)
+    {
         $request->validate([
             'name' => 'required|string|max:255',
             'content' => 'required|string',
@@ -61,7 +63,8 @@ class FileController extends Controller
         ], 200);
     }
 
-    function delete_file($id) {
+    function delete_file($id)
+    {
         $user = JWTAuth::parseToken()->authenticate();
 
         $file = File::findOrFail($id);
@@ -78,23 +81,44 @@ class FileController extends Controller
         ], 200);
     }
 
-    public function get_files() {
+    public function get_files()
+    {
         $user = JWTAuth::parseToken()->authenticate();
 
         if (!$user) {
             return response()->json(['error' => 'User not found'], 404);
         }
-    
+
         $files = File::where('owner_id', $user->id)->get();
-    
+
         if ($files->isEmpty()) {
             return response()->json(['message' => 'No files found for this user'], 404);
         }
-    
+
         return response()->json([
             'message' => 'Files fetched successfully!',
             'files' => $files,
         ], 200);
     }
-    
+
+    public function get_file_content($id)
+    {
+        $user = JWTAuth::parseToken()->authenticate();
+
+        $file = File::findOrFail($id);
+
+        if ($file->owner_id !== $user->id) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        return response()->json([
+            'message' => 'File content fetched successfully!',
+            'file' => [
+                'name' => $file->name,
+                'content' => $file->content,
+                'language' => $file->language,
+            ]
+        ], 200);
+    }
+
 }
