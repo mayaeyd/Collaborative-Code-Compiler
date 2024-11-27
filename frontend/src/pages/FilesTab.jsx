@@ -7,11 +7,15 @@ import { filesContext } from "../context/filesContext";
 const FilesTab = () => {
   const [fileName, setFileName] = useState("");
   const { value, setValue, selectedLanguage } = useContext(codeContext);
-  const {createFile , files , getFileContent} = useContext(filesContext);
+  const {createFile , files , getFileContent , setFiles} = useContext(filesContext);
   
   const handleAddFile = ()=>{
     if (fileName.trim() === "") return;
+    const newFile = {
+      name: fileName
+    };
     createFile(fileName , value, selectedLanguage);
+    setFiles([...files, newFile]);
     setFileName("");
   }
 

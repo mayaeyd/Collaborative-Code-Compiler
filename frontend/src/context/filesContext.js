@@ -65,6 +65,15 @@ const FilesProvider = ({ children }) => {
     }
   };
 
+  const getFileContent = async (id) => {
+    try{
+      const response = await axios.get('');
+      return response.data;
+    }catch(error){
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     getCourses();
   }, []);
