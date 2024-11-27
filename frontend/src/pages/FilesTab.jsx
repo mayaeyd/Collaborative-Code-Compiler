@@ -7,7 +7,7 @@ import { filesContext } from "../context/filesContext";
 const FilesTab = () => {
   const [fileName, setFileName] = useState("");
   const { value, setValue, selectedLanguage } = useContext(codeContext);
-  const {createFile , files} = useContext(filesContext);
+  const {createFile , files , getFileContent} = useContext(filesContext);
   
   const handleAddFile = ()=>{
     if (fileName.trim() === "") return;
@@ -47,6 +47,7 @@ const FilesTab = () => {
               border="1px solid teal"
               borderRadius="md"
               w="100%"
+              onClick={()=>getFileContent(file.id)}
             >
               {file.name}
             </Text>
