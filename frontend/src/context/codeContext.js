@@ -7,6 +7,7 @@ const CodeProvider = ({ children }) => {
   const [value, setValue] = useState("");
   const [selectedLanguage, setSelectedLanguage] = useState("javascript");
   const [output, setOutput] = useState('');
+  const [aiResponse , setAIResponse] = useState({});
 
   const onSelect = (language) => {
     setSelectedLanguage(language);
@@ -14,7 +15,7 @@ const CodeProvider = ({ children }) => {
   };
 
   return (
-    <codeContext.Provider value={{ value, setValue, selectedLanguage, onSelect, output, setOutput }}>
+    <codeContext.Provider value={{ value, setValue, selectedLanguage, onSelect, output, setOutput , aiResponse ,setAIResponse }}>
       {children}
     </codeContext.Provider>
   );
