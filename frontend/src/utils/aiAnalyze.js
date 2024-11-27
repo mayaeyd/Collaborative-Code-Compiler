@@ -2,12 +2,11 @@ import axios from "axios";
 import { useState, useContext } from "react";
 import { codeContext } from "../context/codeContext";
 
-export const useAIAnalyze = async (output) => {
+export const useAIAnalyze = () => {
   const { setAIResponse } = useContext(codeContext);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
-  const aiAnalyze = async () => {
+  const aiAnalyze = async (error) => {
     setLoading(true);
     setError(null);
 
@@ -15,7 +14,7 @@ export const useAIAnalyze = async (output) => {
       const response = await axios.post(
         "http://127.0.0.1:8000/api/analyze-code",
         {
-          error: output,
+          error,
         }
       );
 
@@ -25,15 +24,18 @@ export const useAIAnalyze = async (output) => {
 
       return content;
     } catch (error) {
-      setError("An error occurred while analyzing");
       setLoading(false);
-      console.error(error);
+      toast({
+        title: "An error occurred.",
+        description: error.message || "Unable to run code",
+        status: "error",
+        duration: 6000,
+      });
     }
   };
 
-  return [
+  return {
     aiAnalyze,
     loading,
-    error,
-  ];
+  };
 };
