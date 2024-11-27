@@ -10,6 +10,21 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class FileController extends Controller
 {
+    public function save_file(Request $request) {
+        $request->validate([
+            'name' => 'required|string|max:255',  
+            'content' => 'required|string',       
+            'language' => 'required|string',      
+        ]);
+    
+        $user = JWTAuth::parseToken()->authenticate();
+    
+        $file = File::where('name', $request->name)->where('owner_id', $user->id)->first();
+    
+        
+    }
+    
+
     function create_file(Request $request) {
 
         $request->validate([
@@ -67,7 +82,6 @@ class FileController extends Controller
             return response()->json(['error' => 'Unauthorized'], 403);
         }
 
-        // Delete the file
         $file->delete();
 
         return response()->json([
