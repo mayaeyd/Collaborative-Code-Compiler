@@ -41,6 +41,8 @@ const Output = () => {
   };
 
   const handleAnalyzeClick = async (output) => {
+    console.log(output);
+    
     const error = output;
     const response = await aiAnalyze(error);
     let parsedResponse;
