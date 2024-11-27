@@ -1,5 +1,5 @@
 import { Box, HStack, Button, Text } from "@chakra-ui/react";
-import { useAuth } from "../context/AuthContext.jsx";
+import { useAuth } from "../context/AuthContext";
 import CodeEditor from "./CodeEditor.jsx";
 
 function Compiler() {

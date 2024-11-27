@@ -12,12 +12,14 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::prefix("/files")->group(function (){
+Route::prefix("/files")->middleware('auth:api')->group(function () {
     Route::get("/{id}", [FileController::class,"get_files"]);
     Route::post("/", [FileController::class, "create_file"]);
-    Route::put("/{id}", [FileController::class, "edit_file"]);
+    Route::post("/{id}", [FileController::class, "edit_file"]);
     Route::delete("/{id}", [FileController::class, "delete_file"]);
 });
+
+
 Route::prefix("/collaborations")->group(function (){
     Route::post("/", [CollaborationController::class,"add_collaborator"]);
     Route::put("/{id}", [CollaborationController::class,"update_role"]);
