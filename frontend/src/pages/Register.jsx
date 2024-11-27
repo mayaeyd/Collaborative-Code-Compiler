@@ -65,7 +65,7 @@ const Register = () => {
             </Text>
             <Text fontSize="md" align="center" mb={6} color="#e0e0e0">
               Already have an account?{" "}
-              <Link color="#4db6ac" href="/login">
+              <Link color="#4db6ac" href="/">
                 Log in
               </Link>
             </Text>
