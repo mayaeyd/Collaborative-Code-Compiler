@@ -21,14 +21,33 @@ const SaveProvider = ({ children }) => {
         return;  
       }
 
-      
+      const response = await axios.post(
+        'http://127.0.0.1:8000/api/files/save',  
+        {
+          name: fileName,  
+          content: value,  
+          language: selectedLanguage,  
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,  
+          }
+        }
+      );
+
+      if (response.status === 201) {
+        console.log('File saved successfully');
+        alert('File saved successfully');
+      } else {
+        console.log('Unexpected response status:', response.status);
+      }
+    } catch (error) {
+      console.error('Error saving file:', error);
+      alert('Error saving file');
+    }
   };
 
-  return (
-    <saveContext.Provider value={{ handleSave }}>
-      {children}
-    </saveContext.Provider>
-  );
+ 
 };
 
 export default SaveProvider;
