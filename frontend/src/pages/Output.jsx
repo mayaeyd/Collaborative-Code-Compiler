@@ -7,15 +7,8 @@ import Popup from "../components/common/Popup";
 import { useAIAnalyze } from "../utils/aiAnalyze";
 import AIPopup from "../components/common/AIPopup";
 
-const Output = ({ editor }) => {
-  const {
-    value,
-    selectedLanguage,
-    output,
-    setOutput,
-    aiResponse,
-    setAIResponse,
-  } = useContext(codeContext);
+const Output = () => {
+  const { value, selectedLanguage, output, setOutput, aiResponse, setAIResponse } = useContext(codeContext);
   const toast = useToast();
   const version = LANGUAGE_VERSIONS[selectedLanguage];
   const [isLoading, setIsLoading] = useState(false);
@@ -44,6 +37,30 @@ const Output = ({ editor }) => {
       });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleAnalyzeClick = async (output) => {
+    const error = output;
+    const response = await aiAnalyze(error);
+    let parsedResponse;
+    if (typeof response === "string") {
+      try {
+        parsedResponse = JSON.parse(response);
+      } catch (error) {
+        console.error("Error parsing response string:", error);
+        return; // Early return if parsing fails
+      }
+    } else {
+      parsedResponse = response; // If it's already an object, use it directly
+    }
+
+    console.log(parsedResponse.line);
+    console.log(parsedResponse.suggestion);
+    setAIResponse(parsedResponse);
+
+    if (parsedResponse) {
+      setShowPopup(true);
     }
   };
 
@@ -122,7 +139,6 @@ const Output = ({ editor }) => {
           line={aiResponse.line}
           suggestion={aiResponse.suggestion}
           onClose={() => setShowPopup(false)}
-          editor={editor}
         />
       )}
     </Box>
