@@ -78,8 +78,23 @@ class FileController extends Controller
         ], 200);
     }
 
-    function get_files(Request $request) {
+    public function get_files(Request $request) {
         $user = JWTAuth::parseToken()->authenticate();
-
+    
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+    
+        $files = File::where('owner_id', $user->id)->get();
+    
+        if ($files->isEmpty()) {
+            return response()->json(['message' => 'No files found for this user'], 404);
+        }
+    
+        return response()->json([
+            'message' => 'Files fetched successfully!',
+            'files' => $files,
+        ], 200);
     }
+    
 }
