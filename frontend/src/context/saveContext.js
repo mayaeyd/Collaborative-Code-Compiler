@@ -7,13 +7,11 @@ export const saveContext = createContext();
 const SaveProvider = ({ children }) => {
   const { value, selectedLanguage, setValue, setSelectedLanguage } = useContext(codeContext);
 
-  // Save code and language to localStorage
   const saveToLocalStorage = () => {
     localStorage.setItem("codeValue", value);
     localStorage.setItem("codeLanguage", selectedLanguage);
   };
 
-  // Load code and language from localStorage on mount
   useEffect(() => {
     const storedValue = localStorage.getItem("codeValue");
     const storedLanguage = localStorage.getItem("codeLanguage");
@@ -22,9 +20,9 @@ const SaveProvider = ({ children }) => {
   }, [setValue, setSelectedLanguage]);
 
   const handleSave = async (fileName) => {
-    try {
-      saveToLocalStorage(); 
+    saveToLocalStorage();
 
+    try {
       const token = localStorage.getItem("token");
       if (!token) return; 
 
@@ -49,7 +47,7 @@ const SaveProvider = ({ children }) => {
   };
 
   return (
-    <saveContext.Provider value={{ handleSave, saveToLocalStorage }}>
+    <saveContext.Provider value={{ handleSave }}>
       {children}
     </saveContext.Provider>
   );
