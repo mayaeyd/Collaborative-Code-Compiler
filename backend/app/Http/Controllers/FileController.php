@@ -101,24 +101,4 @@ class FileController extends Controller
         ], 200);
     }
 
-    public function get_file_content($id)
-    {
-        $user = JWTAuth::parseToken()->authenticate();
-
-        $file = File::findOrFail($id);
-
-        if ($file->owner_id !== $user->id) {
-            return response()->json(['error' => 'Unauthorized'], 403);
-        }
-
-        return response()->json([
-            'message' => 'File content fetched successfully!',
-            'file' => [
-                'name' => $file->name,
-                'content' => $file->content,
-                'language' => $file->language,
-            ]
-        ], 200);
-    }
-
 }

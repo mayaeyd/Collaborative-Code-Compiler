@@ -15,7 +15,7 @@ const CodeProvider = ({ children }) => {
   };
 
   return (
-    <codeContext.Provider value={{ value, setValue, selectedLanguage, onSelect, output, setOutput , aiResponse ,setAIResponse }}>
+    <codeContext.Provider value={{ value, setValue, selectedLanguage, setSelectedLanguage, onSelect, output, setOutput , aiResponse ,setAIResponse }}>
       {children}
     </codeContext.Provider>
   );
