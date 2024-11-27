@@ -12,7 +12,6 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  
 
   const register = async (formData) => {
     if (
@@ -41,7 +40,8 @@ export const AuthProvider = ({ children }) => {
 
       if (response.status === 200) {
         setUser(response.data.user);
-        navigate("/");
+        localStorage.setItem("token", response.data.access_token); // Save the token
+        navigate("/"); 
         return { success: true };
       }
     } catch (error) {
@@ -72,8 +72,7 @@ export const AuthProvider = ({ children }) => {
 
       if (response.status === 200) {
         const { access_token } = response.data;
-
-        localStorage.setItem("token", access_token);
+        localStorage.setItem("token", access_token); // I added this to save the token
 
         const userResponse = await axios.post(
           "http://127.0.0.1:8000/api/auth/me",
@@ -85,8 +84,8 @@ export const AuthProvider = ({ children }) => {
           }
         );
 
-        setUser(userResponse.data);
-        navigate("/dashboard");
+        setUser(userResponse.data); 
+        navigate("/compiler"); 
         return { success: true };
       }
     } catch (err) {
@@ -97,6 +96,37 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Fetch the current user (me)
+  const getCurrentUser = async () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const response = await axios.post(
+          "http://127.0.0.1:8000/api/auth/me",
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setUser(response.data); 
+      } catch (err) {
+        console.error("Failed to fetch user", err);
+      }
+    }
+  };
+
+  const logout = () => {
+    setUser(null); 
+    localStorage.removeItem("token"); 
+    navigate("/"); 
+  };
+
+  React.useEffect(() => {
+    getCurrentUser();
+  }, []);
+
   const value = {
     user,
     setUser,
@@ -104,6 +134,7 @@ export const AuthProvider = ({ children }) => {
     setError,
     register,
     login,
+    logout,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
