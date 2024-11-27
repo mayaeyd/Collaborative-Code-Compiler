@@ -97,11 +97,23 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const getCurrentUser = async () => {
+    const token = localStorage.getItem("token");
+    if(token){
+      try{
+
+      }
+      catch(err){
+        
+      }
+    }
+  }
+
   const logout = () => {
     setUser(null);
     localStorage.removeItem("token");
     navigate("/");
-  }
+  };
 
   const value = {
     user,
