@@ -107,12 +107,14 @@ export const AuthProvider = ({ children }) => {
           {
             headers: {
               Authorization: `Bearer ${token}`,
-            }
+            },
           }
-        )
+        );
+        setUser(response.data); // This will set the user from the API
       }
       catch(err){
-
+        console.error("Failed to fetch user", err);
+        
       }
     }
   }
@@ -123,6 +125,11 @@ export const AuthProvider = ({ children }) => {
     navigate("/");
   };
 
+  // We add this to initilize the user state if token exists
+  React.useEffect(() => {
+    getCurrentUser();
+  }, []);
+
   const value = {
     user,
     setUser,
@@ -130,6 +137,7 @@ export const AuthProvider = ({ children }) => {
     setError,
     register,
     login,
+    logout,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
