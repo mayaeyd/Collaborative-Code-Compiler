@@ -4,6 +4,7 @@ import { LANGUAGE_VERSIONS } from "../utils/enums/constants";
 import axios from "axios";
 import { Box, Button, Flex, Text, useToast } from "@chakra-ui/react";
 import Popup from "../components/common/Popup";
+import { aiAnalyze } from "../utils/aiAnalyze";
 
 const Output = () => {
   const { value, selectedLanguage, output, setOutput } =
@@ -36,11 +37,6 @@ const Output = () => {
       setIsLoading(false);
     }
   };
-
-  const aiAnalyze = ()=>{
-    console.log("bit");
-    
-  }
 
   return (
     <Box w="50%">
@@ -83,7 +79,7 @@ const Output = () => {
           <Button
             display={isError ? "" : "none"}
             colorScheme="blue"
-            onClick={() => aiAnalyze()}
+            onClick={() => aiAnalyze(output)}
           >
             AI Analyzer
           </Button>
