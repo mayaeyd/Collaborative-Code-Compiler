@@ -1,4 +1,3 @@
-App.jsx:
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./styles/App.css";
 import Register from "./pages/Register.jsx";

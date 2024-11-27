@@ -15,15 +15,19 @@ const CodeEditor = () => {
 
   return (
     <>
-      <HStack spacing={4} position="relative">
-        <Box position="fixed" bottom="20px" right="20px">
-          <Button colorScheme="blue" onClick={() => handleSave(fileName)}>
-            Save
-          </Button>
-        </Box>
-
+      <HStack spacing={4}>
         <Box w="50%">
-          <LanguageSelector />
+          <HStack spacing={2} mt={4}>
+            <LanguageSelector />
+            <Button
+              mt={5}
+              colorScheme="blue"
+              onClick={() => handleSave(fileName)}
+            >
+              Save
+            </Button>
+          </HStack>
+
           <Editor
             height="75vh"
             language={selectedLanguage}
