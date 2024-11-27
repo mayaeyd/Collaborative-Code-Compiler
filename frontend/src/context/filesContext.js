@@ -8,21 +8,38 @@ const FilesProvider = ({ children }) => {
   const [files, setFiles] = useState([]);
 
   const getCourses = async () => {
-    const response = axios.get("http://127.0.0.1:8000/api/files");
-    console.log(response);
-  };
-
-  const createFile = async (fileName, value, selectedLanguage) => {
-    console.log("in context", fileName, value, selectedLanguage);
-
     try {
-      const token = localStorage.getItem("token"); // Retrieve the JWT token from localStorage
-
-      console.log(token);
+      const token = localStorage.getItem("token");
 
       if (!token) {
         console.log("No token found. Please log in again.");
-        return; // Exit if there's no token
+        return;
+      }
+
+      const response = await axios.get("http://127.0.0.1:8000/api/files", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response);
+      if (response.status === 200) {
+        console.log("File fetched successfully");
+      } else {
+        console.log("Unexpected response status:", response.status);
+      }
+      console.log(response.data.files);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const createFile = async (fileName, value, selectedLanguage) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        console.log("No token found. Please log in again.");
+        return;
       }
       const response = await axios.post(
         "http://127.0.0.1:8000/api/files",
@@ -48,9 +65,9 @@ const FilesProvider = ({ children }) => {
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     getCourses();
-  },[])
+  }, []);
 
   return (
     <filesContext.Provider value={{ createFile, files, setFiles }}>
