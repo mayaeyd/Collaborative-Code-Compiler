@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }) => {
       if (response.status === 200) {
         setUser(response.data.user);
         localStorage.setItem("token", response.data.access_token); // Save the token
-        navigate("/"); 
+        navigate("/");
         return { success: true };
       }
     } catch (error) {
@@ -84,8 +84,8 @@ export const AuthProvider = ({ children }) => {
           }
         );
 
-        setUser(userResponse.data); 
-        navigate("/compiler"); 
+        setUser(userResponse.data);
+        navigate("/compiler");
         return { success: true };
       }
     } catch (err) {
@@ -110,7 +110,7 @@ export const AuthProvider = ({ children }) => {
             },
           }
         );
-        setUser(response.data); 
+        setUser(response.data);
       } catch (err) {
         console.error("Failed to fetch user", err);
       }
@@ -118,9 +118,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    setUser(null); 
-    localStorage.removeItem("token"); 
-    navigate("/"); 
+    setUser(null);
+    localStorage.removeItem("token");
+    navigate("/");
   };
 
   React.useEffect(() => {

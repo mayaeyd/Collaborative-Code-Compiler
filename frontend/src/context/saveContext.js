@@ -1,54 +1,55 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect } from "react";
 import axios from "axios";
-import { codeContext } from "./codeContext";  
+import { codeContext } from "./codeContext";
 
 export const saveContext = createContext();
 
 const SaveProvider = ({ children }) => {
-  const { value, selectedLanguage } = useContext(codeContext);  
+  const { value, selectedLanguage, setValue, setSelectedLanguage } = useContext(codeContext);
+
+  // Save code and language to localStorage
+  const saveToLocalStorage = () => {
+    localStorage.setItem("codeValue", value);
+    localStorage.setItem("codeLanguage", selectedLanguage);
+  };
+
+  // Load code and language from localStorage on mount
+  useEffect(() => {
+    const storedValue = localStorage.getItem("codeValue");
+    const storedLanguage = localStorage.getItem("codeLanguage");
+    if (storedValue) setValue(storedValue);
+    if (storedLanguage) setSelectedLanguage(storedLanguage);
+  }, [setValue, setSelectedLanguage]);
 
   const handleSave = async (fileName) => {
     try {
-      console.log('Saving file with the following details:');
-      console.log('Name:', fileName);
-      console.log('Content:', value);  
-      console.log('Language:', selectedLanguage);  
+      saveToLocalStorage(); 
 
-      const token = localStorage.getItem('token');  
-      if (!token) {
-        console.log('No token found. Please log in again.');
-        alert('You need to be logged in to save files.');
-        return;  
-      }
+      const token = localStorage.getItem("token");
+      if (!token) return; 
 
       const response = await axios.post(
-        'http://127.0.0.1:8000/api/files/save',  
+        "http://127.0.0.1:8000/api/files/save",
         {
-          name: fileName,  
-          content: value,  
-          language: selectedLanguage,  
+          name: fileName,
+          content: value,
+          language: selectedLanguage,
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`,  
-          }
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
-      if (response.status === 201) {
-        console.log('File saved successfully');
-        alert('File saved successfully');
-      } else {
-        console.log('Unexpected response status:', response.status);
+      if (response.status !== 201) {
       }
     } catch (error) {
-      console.error('Error saving file:', error);
-      alert('Error saving file');
     }
   };
 
   return (
-    <saveContext.Provider value={{ handleSave }}>
+    <saveContext.Provider value={{ handleSave, saveToLocalStorage }}>
       {children}
     </saveContext.Provider>
   );
