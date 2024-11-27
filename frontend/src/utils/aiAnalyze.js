@@ -1,14 +1,15 @@
 import axios from "axios";
 import { useState, useContext } from "react";
 import { codeContext } from "../context/codeContext";
+import { useToast } from "@chakra-ui/react";
 
 export const useAIAnalyze = () => {
   const { setAIResponse } = useContext(codeContext);
   const [loading, setLoading] = useState(false);
+  const toast = useToast();
 
   const aiAnalyze = async (error) => {
     setLoading(true);
-    setError(null);
 
     try {
       const response = await axios.post(
