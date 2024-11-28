@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('files', function (Blueprint $table) {
+        Schema::table('invitations', function (Blueprint $table) {
             $table->tinyInteger('is_accepted')->default(0)->change();
         });
     }
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('files', function (Blueprint $table) {
+        Schema::table('invitations', function (Blueprint $table) {
             //
         });
     }
