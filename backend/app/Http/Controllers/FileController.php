@@ -1,20 +1,67 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Models\File;
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Models\File;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class FileController extends Controller
 {
-    function create_file(Request $request)
-    {
+    public function save_file(Request $request) {
+        $request->validate([
+            'name' => 'required|string|max:255',  
+            'content' => 'required|string',       
+            'language' => 'required|string',      
+        ]);
+    
+        $user = JWTAuth::parseToken()->authenticate();
+    
+        $file = File::where('name', $request->name)->where('owner_id', $user->id)->first();
+    
+        if ($file) {
+            try {
+                $file->update([
+                    'content' => $request->content,    
+                    'language' => $request->language,  
+                ]);
+    
+                return response()->json([
+                    'message' => 'File updated successfully!',
+                    'file' => $file,                   
+                ], 200); 
+    
+            } catch (\Exception $e) {
+                return response()->json([
+                    'error' => 'Failed to update file: ' . $e->getMessage(),
+                ], 500); 
+            }
+        } else {
+            try {
+                $file = File::create([
+                    'name' => $request->name,         
+                    'content' => $request->content,    
+                    'language' => $request->language,  
+                    'owner_id' => $user->id,           
+                ]);
+    
+                return response()->json([
+                    'message' => 'File created successfully!',
+                    'file' => $file,                    
+                ], 201); 
+    
+            } catch (\Exception $e) {
+                return response()->json([
+                    'error' => 'Failed to save file: ' . $e->getMessage(),
+                ], 500); 
+            }
+        }
+    }
+    
+
+    function create_file(Request $request) {
 
         $request->validate([
             'name' => 'required|string|max:255',
@@ -73,7 +120,6 @@ class FileController extends Controller
             return response()->json(['error' => 'Unauthorized'], 403);
         }
 
-        // Delete the file
         $file->delete();
 
         return response()->json([

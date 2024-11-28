@@ -22,12 +22,15 @@ Route::prefix("/files")->middleware('auth:api')->group(function () {
     Route::delete("/{id}", [FileController::class, "delete_file"]);
 });
 
+Route::get('/files/owner', [FileController::class, 'get_files_by_owner'])->middleware('auth:api');
+
 
 Route::prefix("/collaborations")->group(function (){
     Route::post("/", [CollaborationController::class,"add_collaborator"]);
     Route::put("/{id}", [CollaborationController::class,"update_role"]);
     Route::delete("/{id}", [CollaborationController::class,"remove_collaborator"]);
 });
+
 
 Route::post("/invitations", [InvitationController::class,"invite"]);
 

@@ -4,7 +4,7 @@ import * as monaco from "@monaco-editor/react";
 import { useContext } from "react";
 import { useState, useEffect, useCallback } from "react";
 import { codeContext } from "../context/codeContext";
-import { codeSnippets } from "../utils/enums/constants";
+import { saveContext } from "../context/saveContext";
 import LanguageSelector from "../components/base/LanguageSelector";
 import Output from "./Output.jsx";
 import FilesTab from "./FilesTab.jsx";
@@ -17,6 +17,7 @@ const CodeEditor = () => {
     useContext(codeContext);
     const [isTyping, setIsTyping] = useState(false);
     const [text, setText] = useState("");
+    const { handleSave } = useContext(saveContext);
 
     window.Pusher = Pusher;
 
@@ -73,6 +74,13 @@ const CodeEditor = () => {
     <FilesTab />
       <Box w="50%">
         <LanguageSelector />
+        <Button
+              mt={5}
+              colorScheme="blue"
+              onClick={() => handleSave(fileName)}
+            >
+              Save
+            </Button>
         <Editor
           height="75vh"
           language={selectedLanguage}
@@ -83,7 +91,7 @@ const CodeEditor = () => {
         />
       </Box>
       <Output />
-=    </HStack>
+    </HStack>
     </>
   );
 };
