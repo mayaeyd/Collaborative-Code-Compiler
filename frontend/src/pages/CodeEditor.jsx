@@ -16,6 +16,7 @@ const CodeEditor = () => {
   const { value, setValue, selectedLanguage } =
     useContext(codeContext);
     const [isTyping, setIsTyping] = useState(false);
+    const [text, setText] = useState("");
 
     window.Pusher = Pusher;
 
@@ -57,6 +58,7 @@ const CodeEditor = () => {
     }, [text]);
 
     const debouncedPostRequest = useDebouncedCallback(postRequest, 500);
+
 
     const handleInputChange = (newValue) => {
       // setText(newValue);
