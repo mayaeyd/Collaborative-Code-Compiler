@@ -1,94 +1,54 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext } from "react";
 import axios from "axios";
-import { codeContext } from "./codeContext";
+import { codeContext } from "./codeContext";  
 
 export const saveContext = createContext();
 
 const SaveProvider = ({ children }) => {
-  const { value, selectedLanguage, setValue, setSelectedLanguage } = useContext(codeContext);
-  const [fileId, setFileId] = useState(null);
-  const [userFiles, setUserFiles] = useState([]); 
-
-  useEffect(() => {
-    const fetchUserFiles = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) return;
-  
-        const response = await axios.get("http://127.0.0.1:8000/api/files/owner", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-  
-        if (response.status === 200) {
-          setUserFiles(response.data.files);  
-        }
-      } catch (error) {
-        console.error("Error fetching user files:", error);
-      }
-    };
-  
-    fetchUserFiles();
-  }, []);
-  
-
-  useEffect(() => {
-    const fetchFile = async () => {
-      if (!fileId) return;
-
-      try {
-        const token = localStorage.getItem("token");
-        const response = await axios.get(`http://127.0.0.1:8000/api/files/${fileId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (response.status === 200) {
-          setValue(response.data.content);
-          setSelectedLanguage(response.data.language);
-        }
-      } catch (error) {
-        console.error("Error fetching file:", error);
-      }
-    };
-
-    fetchFile();
-  }, [fileId, setValue, setSelectedLanguage]);
+  const { value, selectedLanguage } = useContext(codeContext);  
 
   const handleSave = async (fileName) => {
     try {
-      const token = localStorage.getItem("token");
-      if (!token) return;
+      console.log('Saving file with the following details:');
+      console.log('Name:', fileName);
+      console.log('Content:', value);  
+      console.log('Language:', selectedLanguage);  
+
+      const token = localStorage.getItem('token');  
+      if (!token) {
+        console.log('No token found. Please log in again.');
+        alert('You need to be logged in to save files.');
+        return;  
+      }
 
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/files/save",
+        'http://127.0.0.1:8000/api/files/save',  
         {
-          name: fileName,
-          content: value,
-          language: selectedLanguage,
+          name: fileName,  
+          content: value,  
+          language: selectedLanguage,  
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`,  
+          }
         }
       );
 
       if (response.status === 201) {
-        const savedFileId = response.data.id; 
-        setFileId(savedFileId);
-
-        setUserFiles((prevFiles) => [...prevFiles, response.data]);
+        console.log('File saved successfully');
+        alert('File saved successfully');
+      } else {
+        console.log('Unexpected response status:', response.status);
       }
     } catch (error) {
-      console.error("Error saving file:", error);
+      console.error('Error saving file:', error);
+      alert('Error saving file');
     }
   };
 
   return (
-    <saveContext.Provider value={{ handleSave, fileId, userFiles, setFileId }}>
+    <saveContext.Provider value={{ handleSave }}>
       {children}
     </saveContext.Provider>
   );

@@ -18,9 +18,9 @@ Route::prefix("/files")->middleware('auth:api')->group(function () {
     Route::post("/", [FileController::class, "create_file"]);
     Route::post("/{id}", [FileController::class, "edit_file"]);
     Route::delete("/{id}", [FileController::class, "delete_file"]);
-    Route::get('/owner', [FileController::class, 'get_files_by_owner']);
 });
 
+Route::get('/files/owner', [FileController::class, 'get_files_by_owner'])->middleware('auth:api');
 
 
 Route::prefix("/collaborations")->group(function (){
